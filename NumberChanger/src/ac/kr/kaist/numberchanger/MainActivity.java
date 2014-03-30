@@ -15,6 +15,7 @@ public class MainActivity extends Activity {
 	private Button btn010;
 	private Button btn82;
 	
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,8 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		init();
+		
+		
 						
 	}
 	
@@ -34,7 +37,7 @@ public class MainActivity extends Activity {
 		
 		btn010.setOnClickListener(onClickListener);
 		btn82.setOnClickListener(onClickListener);
-		
+				
 	}
 	
 	private OnClickListener onClickListener = new OnClickListener() {
@@ -62,7 +65,7 @@ public class MainActivity extends Activity {
 			
 		}
 		
-		Toast.makeText(this, count + "개의 연락처 업데이트", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, count + "개의 연락처 업데이트", Toast.LENGTH_SHORT).show();
 		
 	}
 
