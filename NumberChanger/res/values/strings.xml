@@ -3,8 +3,9 @@
 
     <string name="app_name">NumChanger</string>
     <string name="action_settings">Settings</string>
-    
     <string name="To010">010으로</string>
     <string name="To82">82로</string>
+    <string name="title_activity_index">IndexActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

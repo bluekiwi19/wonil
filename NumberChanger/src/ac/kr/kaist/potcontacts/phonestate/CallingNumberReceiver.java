@@ -1,4 +1,4 @@
-package ac.kr.kaist.numberchanger.phonestate;
+package ac.kr.kaist.potcontacts.phonestate;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -32,16 +32,20 @@ public class CallingNumberReceiver extends BroadcastReceiver  {
 	     
     public void onReceive(Context context, final Intent intent) {
     	
-    	String outgoingno = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
+    	String action = intent.getAction();
     	
-    	//82로 전화를 건다면
-    	if(outgoingno.substring(0,2).equals("82")){
-    		
-    		Log.d("outgoingnum", outgoingno);
-    		//전화번호 변경
-    		this.setResultData("0"+ outgoingno.substring(2));    		    		
-
+    	if(action.equals(Intent.ACTION_NEW_OUTGOING_CALL)){
+    	
+	    	String outgoingno = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
+	    	
+	    	//82로 전화를 건다면
+	    	if(outgoingno.substring(0,2).equals("82")){
+	    		
+	    		Log.d("outgoingnum", outgoingno);
+	    		//전화번호 변경
+	    		this.setResultData("0"+ outgoingno.substring(2));    		    		
+	
+	    	}
     	}
-        
     }
 }

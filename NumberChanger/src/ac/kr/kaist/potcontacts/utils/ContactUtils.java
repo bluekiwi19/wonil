@@ -1,10 +1,11 @@
-package ac.kr.kaist.numberchanger.utils;
+package ac.kr.kaist.potcontacts.utils;
 
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ac.kr.kaist.potcontacts.classes.Contact;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -29,26 +30,30 @@ public class ContactUtils {
 		cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
 	}
 	
-	public int UpdateContacts(int flag){
+	public ArrayList<Contact> ReadContacts(int flag){
 		
 		int count = cursor.getCount();
-		int updateCnt = 0;
+		ArrayList<Contact> contacts = new ArrayList<Contact>();
 		
 		if(count > 0){
 			
+			Contact contact = new Contact();
+						
 			Log.d("ContactNumber", count + "\n");
 			
 			//개인정보 읽기
 			cursor.moveToFirst();
 			while(cursor.moveToNext()){
-				
+								
 				//아이디
 				String id = cursor.getString(
 						cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
+				contact.setId(id);
 				
 				//이름
 				String name = cursor.getString(
-						cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)); 
+						cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+				contact.setName(name);
 				
 				//String phoneNum = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
 				
@@ -82,18 +87,19 @@ public class ContactUtils {
 							
 							phoneNum = "82" + phoneNum.substring(1);
 							updateNumber(phoneNum, id);
-							updateCnt++;
+							//updateCnt++;
 							
 						}else if(flag == PHONE_NUMBER_TO_010 && phoneNum.substring(0, 2).equals("82")){
 							
 							phoneNum = "0" + phoneNum.substring(2);
 							updateNumber(phoneNum, id);
-							updateCnt++;
+							//updateCnt++;
 							
 						}
 												
 						//전화번호 형식 지정
 						phoneNum = PhoneNumberUtils.formatNumber(phoneNum);
+						contact.addPhone_num(phoneNum);
 						
 						log += phoneNum + " / ";
 						
@@ -102,13 +108,14 @@ public class ContactUtils {
 					log += "\n";
 					Log.d("ReadContact", log);
 					
-					pCur.close();
+					contacts.add(contact);
 					
+					pCur.close();
 				}
 			}
 		}
 		
-		return updateCnt;
+		return contacts;
 	}
 
 		
@@ -158,7 +165,6 @@ public class ContactUtils {
 		}
 		
 		return success;
-		
 	}
 	
 	public boolean updateContact(String name, String number, String email, String ContactId) {
